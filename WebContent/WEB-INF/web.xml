@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" id="WebApp_ID" version="4.0">
+  <display-name>VCS</display-name>
+  	<servlet>
+		<servlet-name>Account</servlet-name>
+		<servlet-class>com.vcs.servlet.UserServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Account</servlet-name>
+		<url-pattern>/account</url-pattern>
+	</servlet-mapping>
+
+  	<servlet>
+		<servlet-name>Path</servlet-name>
+		<servlet-class>com.vcs.servlet.PathServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Path</servlet-name>
+		<url-pattern>/path</url-pattern>
+	</servlet-mapping>
+
+
+  	<servlet>
+		<servlet-name>File</servlet-name>
+		<servlet-class>com.vcs.servlet.FileServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>File</servlet-name>
+		<url-pattern>/file</url-pattern>
+	</servlet-mapping>
+	
+	
+  	<servlet>
+		<servlet-name>Manage</servlet-name>
+		<servlet-class>com.vcs.servlet.ManageServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Manage</servlet-name>
+		<url-pattern>/manage</url-pattern>
+	</servlet-mapping>
+
+
+
+	<servlet>
+		<servlet-name>Shared</servlet-name>
+		<servlet-class>com.vcs.servlet.SharedServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Shared</servlet-name>
+		<url-pattern>/shared</url-pattern>
+	</servlet-mapping>
+
+
+
+	
+  	<servlet>
+		<servlet-name>Sharing</servlet-name>
+		<servlet-class>com.vcs.servlet.SharingServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Sharing</servlet-name>
+		<url-pattern>/sharing</url-pattern>
+	</servlet-mapping>
+
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+</web-app>

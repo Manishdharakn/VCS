@@ -1,0 +1,7 @@
+create schema vcsdb;
+use vcsdb;
+create table USER (email varchar(100) primary key, password text, addr text, role text, fname text, lname text, gender text, mobile text);
+create table path (email text, path text);
+create table checksum (filename text, checksum text);
+
+create table sharing(path text, filename text, accesslevel text, email text, owner text);

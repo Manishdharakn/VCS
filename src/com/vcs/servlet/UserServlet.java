@@ -1,6 +1,9 @@
 package com.vcs.servlet;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.sql.Timestamp;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -9,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.vcs.dao.UserDAO;
 import com.vcs.daoimpl.UserDAOImpl;
+
 import com.vcs.pojo.User;
 
 public class UserServlet extends HttpServlet
@@ -65,6 +69,27 @@ public class UserServlet extends HttpServlet
          }
          else if (request_type.equals("login"))
          {
+           if (req.getSession().getAttribute("attemp_count") != null) {
+					long attempt_time = (long) req.getSession().getAttribute("attempt_time");
+					long current_time = System.currentTimeMillis();
+					if ((current_time - attempt_time) / (1000 * 60) > 30) {
+						req.getSession().removeAttribute("attempt_count");
+						req.getSession().removeAttribute("attempt_time");
+					}
+				}
+
+				boolean proceed = true;
+
+				if (req.getSession().getAttribute("attempt_count") != null) {
+					int attempt_count = (int) req.getSession().getAttribute("attempt_count");
+					if (attempt_count >= 5) {
+						proceed = false;
+					}
+
+				}
+        
+            if (proceed) {
+            
             String email = req.getParameter("email");
             String password = req.getParameter("password");
             User user = dao.getUserDetails(email, password);
@@ -75,16 +100,33 @@ public class UserServlet extends HttpServlet
             else if (user != null)
             {
                req.getSession().setAttribute("user", user);
+               
+               SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+					Timestamp date = user.getDate(null);
+					Date date1 = new Date();
+					long time = date1.getTime();
+					Timestamp ldate = new Timestamp(time);
+					dao.updateLastLogin(email, ldate);
                resp.sendRedirect("welcome.jsp?msg=Successfully logged in as " + user.getFname() + " "
-                        + user.getLname() + " (" + user.getRole() + ") ");
+                        + user.getLname() + " (" + user.getRole() + ")Last Login Date and Time: " + f.format(date));
 
             }
             else
             {
-               resp.sendRedirect("login.jsp?msg=Invalid Credentials");
-            }
-         }
+              int attempt_count = 1;
+				  if (req.getSession().getAttribute("attempt_count") != null) {
+							attempt_count += (int) req.getSession().getAttribute("attempt_count");
+						}
+				  req.getSession().setAttribute("attempt_count", attempt_count);
+				  req.getSession().setAttribute("attempt_time", System.currentTimeMillis());
 
+              resp.sendRedirect("login.jsp?msg=Invalid Credentials");
+            }
+         } else {
+
+					resp.sendRedirect("login.jsp?msg=Login attempt blocked. Please try again later.");
+				}
+            }
          else if (request_type.equals("updateprofile"))
          {
             User user = new User();

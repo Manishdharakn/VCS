@@ -1,5 +1,7 @@
 package com.vcs.pojo;
 
+import java.sql.Timestamp;
+
 public class User {
 
 	private String email;
@@ -10,7 +12,8 @@ public class User {
 	private String mobile;
 	private String addr;
 	private String role;
-
+	private String date;
+	
 	public String getEmail() {
 		return email;
 	}
@@ -75,4 +78,10 @@ public class User {
 		this.role = role;
 	}
 
+	public Timestamp getDate( Timestamp ldate) {
+		return ldate;
+	}
+	public void setDate(String date) {
+		this.date = date;
+	}
 }

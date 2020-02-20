@@ -3,6 +3,7 @@ package com.vcs.daoimpl;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,6 +76,8 @@ public class UserDAOImpl implements UserDAO {
 			ps.setString(7, user.getGender());
 			ps.setString(8, user.getMobile());
 			ps.setString(3, user.getAddr());
+			ps.setTimestamp(9, user.getRegDate());
+			ps.setTimestamp(10, user.getRegDate());
 			ps.execute();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -102,6 +105,7 @@ public class UserDAOImpl implements UserDAO {
 			user.setGender(rs.getString("gender"));
 			user.setMobile(rs.getString("mobile"));
 			user.setRole(rs.getString("role"));
+			user.setDate(rs.getTimestamp("last_login_time"));
 			return user;
 
 		} catch (Exception e) {
@@ -112,7 +116,8 @@ public class UserDAOImpl implements UserDAO {
 		}
 
 	}
-
+	
+  
 	@Override
 	public void updateProfile(User user) throws Exception {
 		Connection con = null;
@@ -217,6 +222,7 @@ public class UserDAOImpl implements UserDAO {
 			user.setGender(rs.getString("gender"));
 			user.setMobile(rs.getString("mobile"));
 			user.setRole(rs.getString("role"));
+			user.setDate(rs.getTimestamp("last_login_time"));
 			return user;
 
 		} catch (Exception e) {
@@ -226,6 +232,27 @@ public class UserDAOImpl implements UserDAO {
 			con.close();
 		}
 
+	}
+
+	@Override
+	public void updateLastLogin(String email, Timestamp date) throws Exception{
+		Connection con = null;
+		try {
+			con = MySQLUtility.connect();
+			PreparedStatement ps = con.prepareStatement("update user set last_login_time=? where email=?");
+			ps.setTimestamp(1, date);
+			ps.setString(2, email);
+			ps.execute();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+
+		} finally {
+			con.close();
+		}
+	
+		
 	}
 
 }

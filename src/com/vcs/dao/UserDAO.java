@@ -1,5 +1,6 @@
 package com.vcs.dao;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import com.vcs.pojo.User;
@@ -8,6 +9,7 @@ public interface UserDAO
 {
 
 	public List<User> getAllUsers() throws Exception;
+	
 	public List<String> getAllEmails() throws Exception;
 
 	public void register(User user) throws Exception;
@@ -23,5 +25,8 @@ public interface UserDAO
 	public boolean changePassword(String email, String oldpassword, String newpassword) throws Exception;
 
 	public String forgotPassword(String email) throws Exception;
+	
+	public void updateLastLogin(String email, Timestamp ldate);
 
 }
+
